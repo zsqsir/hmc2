@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "env": {
+    "NODE_OPTIONS": "--openssl-legacy-provider"
+  },
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--openssl-legacy-provider"
+    }
+  },
+  "builds": [
+    {
+      "src": "hotel_contract_management/app/main.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "hotel_contract_management_ui/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "hotel_contract_management_ui/build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/hotel_contract_management/app/main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/hotel_contract_management_ui/$1"
+    }
+  ]
+}
