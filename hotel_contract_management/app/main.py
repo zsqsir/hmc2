@@ -1,3 +1,8 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -8,6 +13,7 @@ import uvicorn
 import logging
 from models import RoomRate, Room, Hotel
 from datetime import date
+
 
 
 # Set up logging

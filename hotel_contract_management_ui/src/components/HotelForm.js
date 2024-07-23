@@ -16,7 +16,7 @@ const HotelForm = ({ addHotel }) => {
         e.preventDefault(); // Prevents the default form submission behavior
 
         try {
-            const response = await axios.post('http://localhost:8000/hotels/', hotel);
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/hotels/`, hotel);
             addHotel(response.data);
             setHotel({ name: '', facilities: '' }); // Reset form fields
         } catch (error) {

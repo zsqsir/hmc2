@@ -14,7 +14,7 @@ const RoomRateForm = ({ roomRateId, onSuccess }) => {
 
     useEffect(() => {
         if (roomRateId) {
-            axios.get(`http://localhost:8000/room_rates/${roomRateId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/room_rates/${roomRateId}`)
                 .then(response => setRoomRate(response.data))
                 .catch(error => console.error('Error fetching room rate:', error));
         }
@@ -27,8 +27,8 @@ const RoomRateForm = ({ roomRateId, onSuccess }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const apiCall = roomRateId
-            ? axios.put(`http://localhost:8000/room_rates/${roomRateId}`, roomRate)
-            : axios.post('http://localhost:8000/room_rates', roomRate);
+            ? axios.put(`${process.env.REACT_APP_API_URL}/room_rates/${roomRateId}`, roomRate)
+            : axios.post('${process.env.REACT_APP_API_URL}/room_rates', roomRate);
 
         apiCall.then(() => {
             onSuccess();

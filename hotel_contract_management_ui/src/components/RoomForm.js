@@ -19,7 +19,7 @@ const RoomForm = ({ roomId, onSuccess, selectedHotelId }) => {
 
     useEffect(() => {
         if (roomId) {
-            axios.get(`http://localhost:8000/rooms/${roomId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`)
                 .then(response => setRoom(response.data))
                 .catch(error => console.error('Error fetching room:', error));
         }
@@ -32,8 +32,8 @@ const RoomForm = ({ roomId, onSuccess, selectedHotelId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const apiCall = roomId
-            ? axios.put(`http://localhost:8000/rooms/${roomId}`, room)
-            : axios.post('http://localhost:8000/rooms', { ...room, hotel_id: selectedHotelId });
+            ? axios.put(`${process.env.REACT_APP_API_URL}/rooms/${roomId}`, room)
+            : axios.post(`${process.env.REACT_APP_API_URL}/rooms`, { ...room, hotel_id: selectedHotelId });
 
         apiCall.then(() => {
             onSuccess();

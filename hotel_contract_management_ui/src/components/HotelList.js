@@ -9,13 +9,13 @@ const HotelList = ({ hotels = [], setHotels }) => { // Default to empty array if
     const handleDelete = useCallback(async (id) => {
         try {
             // Check if the hotel has rooms
-            const response = await axios.get(`http://localhost:8000/hotels/${id}/rooms`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/hotels/${id}/rooms`);
             if (response.data.length > 0) {
                 // If hotel has rooms, show an alert message
                 alert('This hotel has rooms and cannot be deleted.');
             } else {
                 // If no rooms, proceed with deletion
-                await axios.delete(`http://localhost:8000/hotels/${id}`);
+                await axios.delete(`${process.env.REACT_APP_API_URL}/hotels/${id}`);
                 setHotels(prevHotels => prevHotels.filter(hotel => hotel.id !== id));
                 console.log(`Deleted hotel with id: ${id}`);
             }
@@ -33,7 +33,7 @@ const HotelList = ({ hotels = [], setHotels }) => { // Default to empty array if
     const handleSave = async () => {
         try {
             const updatedHotel = { name: hotelName, facilities: hotelFacilities };
-            await axios.put(`http://localhost:8000/hotels/${editingHotelId}`, updatedHotel);
+            await axios.put(`${process.env.REACT_APP_API_URL}/hotels/${editingHotelId}`, updatedHotel);
             setHotels(prevHotels =>
                 prevHotels.map(hotel => hotel.id === editingHotelId ? { ...hotel, ...updatedHotel } : hotel)
             );

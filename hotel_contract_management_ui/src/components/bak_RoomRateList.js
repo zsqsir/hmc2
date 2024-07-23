@@ -22,7 +22,7 @@ const RoomRateList = () => {
     useEffect(() => {
         const fetchHotels = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/hotels/');
+                const response = await axios.get('${process.env.REACT_APP_API_URL}/hotels/');
                 setHotels(response.data);
             } catch (error) {
                 console.error('Error fetching hotels', error);
@@ -31,7 +31,7 @@ const RoomRateList = () => {
 
         const fetchRooms = async (hotelId) => {
             try {
-                const response = await axios.get('http://localhost:8000/rooms/', { params: { hotel_id: hotelId } });
+                const response = await axios.get('${process.env.REACT_APP_API_URL}/rooms/', { params: { hotel_id: hotelId } });
                 setRooms(response.data);
             } catch (error) {
                 console.error('Error fetching rooms', error);
@@ -50,7 +50,7 @@ const RoomRateList = () => {
     useEffect(() => {
         const fetchRoomRates = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/room_rates/', { params: filters });
+                const response = await axios.get('${process.env.REACT_APP_API_URL}/room_rates/', { params: filters });
                 console.log("Fetched data:", response.data); // Log the response data
                 setRoomRates(response.data);
                 setLoading(false);
@@ -70,7 +70,7 @@ const RoomRateList = () => {
     const handleDelete = async (id) => {
         // Logic to handle delete
         try {
-            await axios.delete(`http://localhost:8000/room_rates/${id}`);
+            await axios.delete(`${process.env.REACT_APP_API_URL}/room_rates/${id}`);
             setRoomRates(roomRates.filter(rate => rate.id !== id));
             console.log(`Deleted room rate with id: ${id}`);
         } catch (error) {

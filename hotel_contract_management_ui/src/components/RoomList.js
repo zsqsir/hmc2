@@ -9,7 +9,7 @@ const RoomList = ({ hotels }) => {
 
     useEffect(() => {
         if (selectedHotelId) {
-            axios.get(`http://localhost:8000/rooms?hotel_id=${selectedHotelId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/rooms?hotel_id=${selectedHotelId}`)
                 .then(response => setRooms(response.data))
                 .catch(error => console.error('Error fetching rooms:', error));
         } else {
@@ -20,13 +20,13 @@ const RoomList = ({ hotels }) => {
     const handleDelete = useCallback(async (id) => {
         try {
             // Check if the room has rates
-            const response = await axios.get(`http://localhost:8000/rooms/${id}/room_rates`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/${id}/room_rates`);
             if (response.data.length > 0) {
                 // If the room has rates, show an alert message
                 alert('This room has rates and cannot be deleted.');
             } else {
                 // If no rates, proceed with deletion
-                await axios.delete(`http://localhost:8000/rooms/${id}`);
+                await axios.delete(`${process.env.REACT_APP_API_URL}/rooms/${id}`);
                 setRooms(prevRooms => prevRooms.filter(room => room.id !== id));
                 console.log(`Deleted room with id: ${id}`);
             }
@@ -42,7 +42,7 @@ const RoomList = ({ hotels }) => {
     const handleSuccess = () => {
         setEditingRoomId(null);
         if (selectedHotelId) {
-            axios.get(`http://localhost:8000/rooms?hotel_id=${selectedHotelId}`)
+            axios.get(`${process.env.REACT_APP_API_URL}/rooms?hotel_id=${selectedHotelId}`)
                 .then(response => setRooms(response.data))
                 .catch(error => console.error('Error fetching rooms:', error));
         }

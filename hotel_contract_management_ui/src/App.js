@@ -14,7 +14,7 @@ const App = () => {
     useEffect(() => {
         const fetchHotels = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/hotels/');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/hotels/`);
                 setHotels(response.data);
             } catch (error) {
                 console.error('Error fetching hotels', error);

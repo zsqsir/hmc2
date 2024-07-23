@@ -14,7 +14,7 @@ const AddRoomRate = () => {
     useEffect(() => {
         const fetchHotels = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/hotels/');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/hotels/`);
                 setHotels(response.data);
             } catch (error) {
                 console.error('Error fetching hotels', error);
@@ -28,7 +28,7 @@ const AddRoomRate = () => {
         const hotelId = e.target.value;
         setRoomRate({ ...roomRate, room_id: '' });
         try {
-            const response = await axios.get('http://localhost:8000/rooms/', { params: { hotel_id: hotelId } });
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/`, { params: { hotel_id: hotelId } });
             setRooms(response.data);
         } catch (error) {
             console.error('Error fetching rooms', error);
@@ -43,7 +43,7 @@ const AddRoomRate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8000/room_rates/', roomRate);
+            await axios.post(`${process.env.REACT_APP_API_URL}/room_rates/`, roomRate);
             alert('Room rate added successfully');
         } catch (error) {
             console.error('Error adding room rate', error);
