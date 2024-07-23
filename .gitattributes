@@ -1,0 +1,10 @@
+# 自动处理换行符
+* text=auto
+
+# 特定文件类型强制使用 LF
+*.sh text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+
+# 如果有其他类型文件需要强制使用 LF，也可以在这里添加

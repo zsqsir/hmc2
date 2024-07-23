@@ -1,8 +1,4 @@
-import sys
 import os
-
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -14,6 +10,8 @@ import logging
 from models import RoomRate, Room, Hotel
 from datetime import date
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 
 
 # Set up logging
@@ -24,6 +22,12 @@ logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+# Define the path to the build directory
+build_path = os.path.join(os.path.dirname(__file__), "../../hotel_contract_management_ui/build")
+
+# Mount React static files
+app.mount("/static", StaticFiles(directory=os.path.join(build_path, "static")), name="static")
 
 # 添加 CORS 中间件
 app.add_middleware(
@@ -40,6 +44,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+@app.get("/", response_class=HTMLResponse)
+async def serve_react_app():
+    with open("../../hotel_contract_management_ui/build/index.html") as f:
+        return HTMLResponse(content=f.read(), status_code=200)
 
 @app.post("/hotels/", response_model=schemas.Hotel)
 def create_hotel(hotel: schemas.HotelCreate, db: Session = Depends(get_db)):
